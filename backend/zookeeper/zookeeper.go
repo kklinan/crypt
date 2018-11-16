@@ -3,10 +3,12 @@ package zookeeper
 import (
 	"errors"
 	"fmt"
-	zk "github.com/samuel/go-zookeeper/zk"
-	"github.com/xordataexchange/crypt/backend"
 	"strings"
 	"time"
+
+	"github.com/kklinan/crypt/backend"
+
+	zk "github.com/samuel/go-zookeeper/zk"
 )
 
 type Client struct {

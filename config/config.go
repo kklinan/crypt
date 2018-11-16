@@ -5,11 +5,11 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/xordataexchange/crypt/backend"
-	"github.com/xordataexchange/crypt/backend/consul"
-	"github.com/xordataexchange/crypt/backend/etcd"
-	"github.com/xordataexchange/crypt/backend/zookeeper"
-	"github.com/xordataexchange/crypt/encoding/secconf"
+	"github.com/kklinan/crypt/backend"
+	"github.com/kklinan/crypt/backend/consul"
+	"github.com/kklinan/crypt/backend/etcd"
+	"github.com/kklinan/crypt/backend/zookeeper"
+	"github.com/kklinan/crypt/encoding/secconf"
 )
 
 type KVPair struct {
