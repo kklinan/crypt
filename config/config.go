@@ -8,6 +8,7 @@ import (
 	"github.com/kklinan/crypt/backend"
 	"github.com/kklinan/crypt/backend/consul"
 	"github.com/kklinan/crypt/backend/etcd"
+	"github.com/kklinan/crypt/backend/etcd3"
 	"github.com/kklinan/crypt/backend/zookeeper"
 	"github.com/kklinan/crypt/encoding/secconf"
 )
@@ -79,6 +80,16 @@ func NewStandardZookeeperConfigManager(machines []string) (ConfigManager, error)
 // Data will be encrypted.
 func NewEtcdConfigManager(machines []string, keystore io.Reader) (ConfigManager, error) {
 	store, err := etcd.New(machines)
+	if err != nil {
+		return nil, err
+	}
+	return NewConfigManager(store, keystore)
+}
+
+// NewEtcd3ConfigManager returns a new ConfigManager backed by etcd3.
+// Data will be encrypted.
+func NewEtcd3ConfigManager(machines []string, keystore io.Reader) (ConfigManager, error) {
+	store, err := etcd3.New(machines)
 	if err != nil {
 		return nil, err
 	}
