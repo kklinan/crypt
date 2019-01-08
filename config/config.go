@@ -58,6 +58,16 @@ func NewStandardEtcdConfigManager(machines []string) (ConfigManager, error) {
 	return NewStandardConfigManager(store)
 }
 
+// NewStandardEtcd3ConfigManager returns a new ConfigManager backed by etcd.
+func NewStandardEtcd3ConfigManager(machines []string) (ConfigManager, error) {
+	store, err := etcd3.New(machines)
+	if err != nil {
+		return nil, err
+	}
+
+	return NewStandardConfigManager(store)
+}
+
 // NewStandardConsulConfigManager returns a new ConfigManager backed by consul.
 func NewStandardConsulConfigManager(machines []string) (ConfigManager, error) {
 	store, err := consul.New(machines)
