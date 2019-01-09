@@ -8,6 +8,7 @@ import (
 	"github.com/kklinan/crypt/backend"
 
 	"go.etcd.io/etcd/clientv3"
+	"go.etcd.io/etcd/mvcc/mvccpb"
 )
 
 // Client provides and manages an etcd v3 client session.
@@ -33,6 +34,9 @@ func (c *Client) Get(key string) ([]byte, error) {
 	getResp, err := c.client.Get(context.TODO(), key)
 	if err != nil {
 		return nil, err
+	}
+	if len(getResp.Kvs) < 1 {
+		return nil, errors.New("key does not exist")
 	}
 	return getResp.Kvs[0].Value, nil
 }
@@ -75,8 +79,11 @@ func (c *Client) Watch(key string, stop chan bool) <-chan *backend.Response {
 			if wchanResp.Canceled {
 				respChan <- &backend.Response{Value: nil, Error: errors.New("watcher is closed")}
 			}
-			c.waitIndex = uint64(wchanResp.Events[0].Kv.Version)
-			respChan <- &backend.Response{Value: wchanResp.Events[0].Kv.Value, Error: nil}
+			// create or update
+			if wchanResp.Events[0].Type == mvccpb.PUT {
+				c.waitIndex = uint64(wchanResp.Events[0].Kv.Version)
+				respChan <- &backend.Response{Value: wchanResp.Events[0].Kv.Value, Error: nil}
+			}
 		}
 	}()
 	return respChan
