@@ -1,5 +1,7 @@
 # crypt
 
+> Forked from [xordataexchange/crypt](https://github.com/xordataexchange/crypt), on this basis, support etcd client V3 and zookeeper, and maintain compatibility and continuous follow-up with the original project.
+
 You can use crypt as a command line tool or as a configuration library:
 
 * [crypt cli](bin/crypt)
